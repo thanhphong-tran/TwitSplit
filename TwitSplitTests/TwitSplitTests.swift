@@ -7,9 +7,43 @@
 //
 
 import XCTest
+
 @testable import TwitSplit
 
 class TwitSplitTests: XCTestCase {
+    
+    let testMessages: [String: [String]] = [
+        // Original test
+        "I can't believe Tweeter now supports chunking my messages, so I don't have to do it myself.": [
+            "1/2 I can't believe Tweeter now supports chunking",
+            "2/2 my messages, so I don't have to do it myself."
+        ],
+        // Test message is not splitted
+        "I can't believe Tweeter now supports chunking": [
+            "I can't believe Tweeter now supports chunking"
+        ],
+        // Test message is splitted by 4
+        "I can't believe Tweeter now supports chunking my messages, so I don't have to do it myself. I can't believe Tweeter now supports chunking my messages, so I don't have to do it myself.": [
+            "1/4 I can't believe Tweeter now supports chunking",
+            "2/4 my messages, so I don't have to do it myself.",
+            "3/4 I can't believe Tweeter now supports chunking",
+            "4/4 my messages, so I don't have to do it myself.",
+        ],
+        // Test message is splitted by 11
+        "012345678900 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789": [
+            "1/11 012345678900 0123456789 0123456789",
+            "2/11 0123456789 0123456789 0123456789 0123456789",
+            "3/11 0123456789 0123456789 0123456789 0123456789",
+            "4/11 0123456789 0123456789 0123456789 0123456789",
+            "5/11 0123456789 0123456789 0123456789 0123456789",
+            "6/11 0123456789 0123456789 0123456789 0123456789",
+            "7/11 0123456789 0123456789 0123456789 0123456789",
+            "8/11 0123456789 0123456789 0123456789 0123456789",
+            "9/11 0123456789 0123456789 0123456789 0123456789",
+            "10/11 0123456789 0123456789 0123456789 0123456789",
+            "11/11 0123456789",
+        ],
+    ]
     
     override func setUp() {
         super.setUp()
@@ -22,14 +56,15 @@ class TwitSplitTests: XCTestCase {
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        let splitter = TwitSplitter()
+        for message in testMessages.keys {
+            let results = splitter.splitMessage(message)
+            
+            // Test results count
+            XCTAssertEqual(results.count, testMessages[message]!.count)
+            
+            // Test each splitted message
+            for i in 0..<results.count { XCTAssertEqual(results[i], testMessages[message]![i]) }
         }
     }
     
