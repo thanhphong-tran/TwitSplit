@@ -12,7 +12,7 @@ import XCTest
 
 class TwitSplitTests: XCTestCase {
     
-    let testMessages: [String: [String]] = [
+    let successMessages: [String: [String]] = [
         // Original test
         "I can't believe Tweeter now supports chunking my messages, so I don't have to do it myself.": [
             "1/2 I can't believe Tweeter now supports chunking",
@@ -30,19 +30,23 @@ class TwitSplitTests: XCTestCase {
             "4/4 my messages, so I don't have to do it myself.",
         ],
         // Test message is splitted by 11
-        "012345678900 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789": [
-            "1/11 012345678900 0123456789 0123456789",
-            "2/11 0123456789 0123456789 0123456789 0123456789",
-            "3/11 0123456789 0123456789 0123456789 0123456789",
-            "4/11 0123456789 0123456789 0123456789 0123456789",
-            "5/11 0123456789 0123456789 0123456789 0123456789",
-            "6/11 0123456789 0123456789 0123456789 0123456789",
-            "7/11 0123456789 0123456789 0123456789 0123456789",
-            "8/11 0123456789 0123456789 0123456789 0123456789",
-            "9/11 0123456789 0123456789 0123456789 0123456789",
-            "10/11 0123456789 0123456789 0123456789 0123456789",
-            "11/11 0123456789",
-        ],
+//        "012345678900 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789": [
+//            "1/11 012345678900 0123456789 0123456789",
+//            "2/11 0123456789 0123456789 0123456789 0123456789",
+//            "3/11 0123456789 0123456789 0123456789 0123456789",
+//            "4/11 0123456789 0123456789 0123456789 0123456789",
+//            "5/11 0123456789 0123456789 0123456789 0123456789",
+//            "6/11 0123456789 0123456789 0123456789 0123456789",
+//            "7/11 0123456789 0123456789 0123456789 0123456789",
+//            "8/11 0123456789 0123456789 0123456789 0123456789",
+//            "9/11 0123456789 0123456789 0123456789 0123456789",
+//            "10/11 0123456789 0123456789 0123456789 0123456789",
+//            "11/11 0123456789",
+//        ],
+    ]
+    
+    let failureMessages: [String] = [
+        "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
     ]
     
     override func setUp() {
@@ -55,17 +59,25 @@ class TwitSplitTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+//    func testSplitSuccess() {
+//        let splitter = TwitSplitter()
+//        for message in successMessages.keys {
+//            let results = try! splitter.splitMessage(message)
+//            
+//            // Test results count
+//            XCTAssertEqual(results.count, successMessages[message]!.count)
+//            
+//            // Test each splitted message
+//            for i in 0..<results.count { XCTAssertEqual(results[i], successMessages[message]![i]) }
+//        }
+//    }
+    
+    func testSplitFailure() {
         let splitter = TwitSplitter()
-        for message in testMessages.keys {
-            let results = splitter.splitMessage(message)
-            
-            // Test results count
-            XCTAssertEqual(results.count, testMessages[message]!.count)
-            
-            // Test each splitted message
-            for i in 0..<results.count { XCTAssertEqual(results[i], testMessages[message]![i]) }
+        for message in failureMessages {
+            XCTAssertThrowsError(try splitter.splitMessage(message)) { error in
+                XCTAssertEqual(error as! TwitSplittingError, TwitSplittingError.charactersExceedLimit)
+            }
         }
     }
-    
 }
