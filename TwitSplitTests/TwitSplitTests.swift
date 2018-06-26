@@ -59,18 +59,18 @@ class TwitSplitTests: XCTestCase {
         super.tearDown()
     }
     
-//    func testSplitSuccess() {
-//        let splitter = TwitSplitter()
-//        for message in successMessages.keys {
-//            let results = try! splitter.splitMessage(message)
-//            
-//            // Test results count
-//            XCTAssertEqual(results.count, successMessages[message]!.count)
-//            
-//            // Test each splitted message
-//            for i in 0..<results.count { XCTAssertEqual(results[i], successMessages[message]![i]) }
-//        }
-//    }
+    func testSplitSuccess() {
+        let splitter = TwitSplitter()
+        for message in successMessages.keys {
+            let results = try! splitter.splitMessage(message)
+            
+            // Test results count
+            XCTAssertEqual(results.count, successMessages[message]!.count)
+            
+            // Test each splitted message
+            for i in 0..<results.count { XCTAssertEqual(results[i], successMessages[message]![i]) }
+        }
+    }
     
     func testSplitFailure() {
         let splitter = TwitSplitter()
