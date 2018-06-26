@@ -14,6 +14,8 @@
 		0F9044BA20DF8F5100CE1D4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F9044B820DF8F5100CE1D4D /* LaunchScreen.storyboard */; };
 		0F9044C520DF8F5100CE1D4D /* TwitSplitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9044C420DF8F5100CE1D4D /* TwitSplitTests.swift */; };
 		0F9044D020DF90E400CE1D4D /* TwitSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9044CF20DF90E400CE1D4D /* TwitSplitter.swift */; };
+		0F9B001020E2A7FB005B8C13 /* MessageCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9B000E20E2A7FB005B8C13 /* MessageCVCell.swift */; };
+		0F9B001120E2A7FB005B8C13 /* MessageCVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F9B000F20E2A7FB005B8C13 /* MessageCVCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		0F9044C420DF8F5100CE1D4D /* TwitSplitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitSplitTests.swift; sourceTree = "<group>"; };
 		0F9044C620DF8F5100CE1D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F9044CF20DF90E400CE1D4D /* TwitSplitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitSplitter.swift; sourceTree = "<group>"; };
+		0F9B000E20E2A7FB005B8C13 /* MessageCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCVCell.swift; sourceTree = "<group>"; };
+		0F9B000F20E2A7FB005B8C13 /* MessageCVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageCVCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,8 @@
 				0F9044B820DF8F5100CE1D4D /* LaunchScreen.storyboard */,
 				0F9044BB20DF8F5100CE1D4D /* Info.plist */,
 				0F9044CF20DF90E400CE1D4D /* TwitSplitter.swift */,
+				0F9B000E20E2A7FB005B8C13 /* MessageCVCell.swift */,
+				0F9B000F20E2A7FB005B8C13 /* MessageCVCell.xib */,
 			);
 			path = TwitSplit;
 			sourceTree = "<group>";
@@ -180,6 +186,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F9B001120E2A7FB005B8C13 /* MessageCVCell.xib in Resources */,
 				0F9044BA20DF8F5100CE1D4D /* LaunchScreen.storyboard in Resources */,
 				0F9044B720DF8F5100CE1D4D /* Assets.xcassets in Resources */,
 				0F9044B520DF8F4F00CE1D4D /* Main.storyboard in Resources */,
@@ -200,6 +207,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F9B001020E2A7FB005B8C13 /* MessageCVCell.swift in Sources */,
 				0F9044D020DF90E400CE1D4D /* TwitSplitter.swift in Sources */,
 				0F9044B220DF8F4F00CE1D4D /* ViewController.swift in Sources */,
 				0F9044B020DF8F4F00CE1D4D /* AppDelegate.swift in Sources */,
