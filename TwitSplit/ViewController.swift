@@ -29,12 +29,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var tfMessage: UITextField!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var dataSource: [String] = [
-        "abababababbabababbababababbababababba",
-        "abababababbabababbababababbababababba",
-        "abababababbabababbababababbababababba",
-        "a"
-    ]
+    var dataSource: [String] = []
+    let twitSplitter = TwitSplitter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,12 +38,32 @@ class ViewController: UIViewController {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.register(UINib.init(nibName: "MessageCVCell", bundle: nil), forCellWithReuseIdentifier: "MessageCVCell")
+        
+        self.tfMessage.text = "I can't believe Tweeter now supports chunking my messages, so I don't have to do it myself."
     }
     
     @IBAction func sendPressed(_ sender: Any) {
+        guard let text = tfMessage.text, text.count > 0 else { return }
         
+        do {
+            let texts = try twitSplitter.splitMessage(text)
+            
+            self.collectionView.performBatchUpdates({
+                let indexPaths = Array(self.dataSource.count..<self.dataSource.count+texts.count).map { IndexPath.init(row: $0, section: 0) }
+                self.dataSource.append(contentsOf: texts)
+                self.collectionView.insertItems(at: indexPaths)
+            }, completion: nil)
+            
+            // Reset text field
+            self.tfMessage.text = ""
+        } catch {
+            if let err = error as? TwitSplittingError {
+                let alert = UIAlertController.init(title: "Splitting Error", message: err.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction.init(title: "OK", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
-    
 }
 
 
