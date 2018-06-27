@@ -9,13 +9,6 @@
 import UIKit
 
 extension String {
-    func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
-        
-        return boundingBox.width
-    }
-    
     func height(withConstraintedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
@@ -29,6 +22,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var tfMessage: UITextField!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var bottomInputViewConstraint: NSLayoutConstraint!
+    
     var dataSource: [String] = []
     let twitSplitter = TwitSplitter()
     
@@ -40,6 +35,19 @@ class ViewController: UIViewController {
         self.collectionView.register(UINib.init(nibName: "MessageCVCell", bundle: nil), forCellWithReuseIdentifier: "MessageCVCell")
         
         self.tfMessage.text = "I can't believe Tweeter now supports chunking my messages, so I don't have to do it myself."
+        
+        NotificationCenter.default.addObserver(self, selector:#selector(self.keyboardWillAppear(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(self.keyboardWillDisappear(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc func keyboardWillAppear(notification: Notification){
+        let userInfo = notification.userInfo ?? [:]
+        let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        self.bottomInputViewConstraint.constant = -keyboardFrame.height
+    }
+    
+    @objc func keyboardWillDisappear(notification: Notification){
+        self.bottomInputViewConstraint.constant = 0
     }
     
     @IBAction func sendPressed(_ sender: Any) {
