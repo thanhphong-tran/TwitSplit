@@ -36,7 +36,7 @@ public class TwitSplitter {
             let temp = _message + " " + word
             if temp.count + 4 > TwitSplitter.CHARACTER_LIMIT {
                 
-                // If message exceed limit before add final word
+                // If message exceed limit before adding final word
                 if _message.count + 4 > TwitSplitter.CHARACTER_LIMIT { throw TwitSplittingError.charactersExceedLimit }
                 
                 results.append(_message)
@@ -46,6 +46,7 @@ public class TwitSplitter {
             }
         }
         
+        // Check final message before adding it
         if _message.count + 4 > TwitSplitter.CHARACTER_LIMIT { throw TwitSplittingError.charactersExceedLimit }
         results.append(_message)
         
