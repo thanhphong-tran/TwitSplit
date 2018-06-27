@@ -32,12 +32,15 @@ public class TwitSplitter {
         var _message: String = ""
         var results = [String]()
         
+        let maxRow: Int = message.count / TwitSplitter.CHARACTER_LIMIT + (message.count % TwitSplitter.CHARACTER_LIMIT != 0 ? 1 : 0) + 1
+        let indicatorLength: Int = String(maxRow).count * 2 + 2
+        
         for word in words {
             let temp = _message + " " + word
-            if temp.count + 4 > TwitSplitter.CHARACTER_LIMIT {
+            if temp.count + indicatorLength > TwitSplitter.CHARACTER_LIMIT {
                 
                 // If message exceed limit before adding final word
-                if _message.count + 4 > TwitSplitter.CHARACTER_LIMIT { throw TwitSplittingError.charactersExceedLimit }
+                if _message.count + indicatorLength > TwitSplitter.CHARACTER_LIMIT { throw TwitSplittingError.charactersExceedLimit }
                 
                 results.append(_message)
                 _message = " " + word
@@ -47,11 +50,12 @@ public class TwitSplitter {
         }
         
         // Check final message before adding it
-        if _message.count + 4 > TwitSplitter.CHARACTER_LIMIT { throw TwitSplittingError.charactersExceedLimit }
+        if _message.count + indicatorLength > TwitSplitter.CHARACTER_LIMIT { throw TwitSplittingError.charactersExceedLimit }
         results.append(_message)
         
         let n = results.count
-        for i in 0..<n { results[i] = "\(i+1)" + "/" + "\(n)" + results[i] }
+        let format: String = "%0\(String(maxRow).count)d/\(n)%@"
+        for i in 0..<n { results[i] = String.init(format: format, i+1, results[i]) }
         
         return results
     }
