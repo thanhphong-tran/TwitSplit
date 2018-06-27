@@ -55,12 +55,16 @@ class ViewController: UIViewController {
         
         do {
             let texts = try twitSplitter.splitMessage(text)
+            let indexPaths = Array(self.dataSource.count..<self.dataSource.count+texts.count).map { IndexPath.init(row: $0, section: 0) }
             
             self.collectionView.performBatchUpdates({
-                let indexPaths = Array(self.dataSource.count..<self.dataSource.count+texts.count).map { IndexPath.init(row: $0, section: 0) }
                 self.dataSource.append(contentsOf: texts)
                 self.collectionView.insertItems(at: indexPaths)
-            }, completion: nil)
+            }, completion: { isSuccess in
+                if isSuccess {
+                    self.collectionView.scrollToItem(at: indexPaths[indexPaths.count - 1], at: UICollectionViewScrollPosition.top, animated: true)
+                }
+            })
             
             // Reset text field
             self.tfMessage.text = ""
